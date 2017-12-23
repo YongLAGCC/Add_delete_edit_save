@@ -22,10 +22,10 @@ ul li .edit{
   display: none; 
 }
 
-ul li .edit .edit{
+ul li.edit .edit{
   display: initial; 
 }
 
-ul li .edit .noedit{
+ul li.edit .noedit{
   display: none;
 }

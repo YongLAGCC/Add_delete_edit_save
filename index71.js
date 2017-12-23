@@ -24,7 +24,7 @@ $(function () {
 
   $.ajax({
     type: 'GET',
-    url: 'http://rest.learncode.academy/api/johnbob/friends',
+    url: 'http://rest.learncode.academy/api/yong/friends',
     success: function(orders) {
       if(orders[7]!= null) {
         console.log('success', orders[7])
@@ -42,7 +42,7 @@ $(function () {
     };
     $.ajax({
       type: 'POST',
-      url: 'http://rest.learncode.academy/api/johnbob/friends',
+      url: 'http://rest.learncode.academy/api/yong/friends',
       data: order,
       success: function(newOrder) {
         addOrder(newOrder);
@@ -56,10 +56,12 @@ $(function () {
   $('#orders').delegate('.remove', 'click',function(){
 
     var li = $(this).closest('li');
+    console.log($(this).attr('data-id'));
+
 
     $.ajax({
       type:'DELETE',
-      url: 'http://rest.learncode.academy/api/johnbob/friends/'+$(this).attr('data-id'),
+      url: 'http://rest.learncode.academy/api/yong/friends/'+$(this).attr('data-id'),
       success: function(){
         li.fadeOut(400, function(){
           li.remove(); 
@@ -68,11 +70,13 @@ $(function () {
     });
   });
 
-$('orders').delegate('.editOrder', 'click', function(){
-  var li =$(this). closest('li'); 
+$('#orders').delegate('.editOrder', 'click', function(){
+  var li =$(this).closest('li'); 
   
   li.find('input.name').val(li.find('span.name').html() );
   li.find('input.age').val(li.find('span.age').html() );
+  li.addClass('edit');
+  console.log(li);
 
 })
 
