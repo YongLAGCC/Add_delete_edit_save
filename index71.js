@@ -4,7 +4,7 @@ $(function () {
   var age = $('#age');
   
   function addOrder(order) {
-    $('#orders').append(`<li>
+    $('#orders').append(`<li data-id='${order.id}'>
       <p>
         <strong>name: </strong> 
         <span class="noedit name">${order.name}</span>
@@ -28,7 +28,6 @@ $(function () {
     success: function(orders) {
       if(orders!== null) {
         console.log('success', orders);
-        
         $.each(orders, function(i,order){
           addOrder(order);
         })
@@ -57,7 +56,7 @@ $(function () {
   $('#orders').delegate(".remove", 'click',function(){
 
     var li = $(this).closest('li');
-    console.log($(this).attr('data-id'));
+    console.log(this)
    
 
     $.ajax({
@@ -78,6 +77,33 @@ $('#orders').delegate('.editOrder', 'click', function(){
   li.find('input.age').val(li.find('span.age').html() );
   li.addClass('edit');
   console.log(li);
+
+})
+
+$('#orders').delegate('.cancelEdit', 'click', function(){
+  $(this).closest('li').removeClass('edit');
+});
+
+$('#orders').delegate('.saveEdit', 'click', function(){
+  var li = $(this).closest('li');
+  var order = {
+    name: li.find('input.name').val(), 
+    age: li.find('input.age').val(),
+  };
+  $.ajax({
+    type: 'PUT',
+    url: 'http://rest.learncode.academy/api/yong/friends/' + li.attr('data-id'),
+    data: order, 
+    success: function(newOrder) {
+      li.find('span.name').html(order.name);
+      li.find('span.age').html(order.age);
+      li.removeClass('edit');
+      console.log(order.age);
+    },
+    error: function() {
+      alert('error saving order');
+    }
+  });
 
 })
 
